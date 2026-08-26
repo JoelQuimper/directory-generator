@@ -6,6 +6,9 @@ public sealed record DirectoryProfile
 
     public required IReadOnlyDictionary<string, string> DisplayNames { get; init; }
 
+    public IReadOnlyDictionary<string, string> Descriptions { get; init; } =
+        new Dictionary<string, string>();
+
     public required string Filter { get; init; }
 
     public required IReadOnlyList<string> Properties { get; init; }

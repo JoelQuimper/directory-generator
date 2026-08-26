@@ -13,13 +13,19 @@ namespace DirectoryGenerator.Api.Controllers;
 public sealed class DirectoriesController(
     IDirectoryProfileCatalog profileCatalog,
     IDirectoryReader directoryReader,
-    IDirectoryEntryOrganizer entryOrganizer) : ControllerBase
+    IDirectoryEntryOrganizer entryOrganizer,
+    IDirectoryDocumentRenderer documentRenderer,
+    TimeProvider timeProvider) : ControllerBase
 {
+    private const string WordDocumentContentType =
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
     [HttpPost("generate")]
+    [Produces(WordDocumentContentType)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IReadOnlyList<DirectoryGroupPreview>>> GenerateDirectory(
+    public async Task<IActionResult> GenerateDirectory(
         [FromBody] GenerateDirectoryRequest request,
         CancellationToken cancellationToken)
     {
@@ -42,6 +48,19 @@ public sealed class DirectoriesController(
 
         var entries = await directoryReader.ReadAsync(profile, cancellationToken);
         var organizedEntries = entryOrganizer.Organize(entries, profile.Sort, request.Locale);
-        return Ok(organizedEntries);
+        var generatedAt = timeProvider.GetUtcNow();
+        var document = documentRenderer.Render(
+            new DirectoryDocumentContent(
+                profile.Id,
+                request.Locale,
+                profile.DisplayNames[request.Locale],
+                profile.Descriptions.GetValueOrDefault(request.Locale),
+                generatedAt,
+                organizedEntries),
+            cancellationToken);
+
+        Response.Headers.CacheControl = "no-store";
+        var fileName = $"directory-{profile.Id}-{request.Locale}-{generatedAt:yyyyMMdd-HHmmss}.docx";
+        return File(document, WordDocumentContentType, fileName);
     }
 }

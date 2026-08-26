@@ -107,6 +107,17 @@ public sealed partial class FileDirectoryProfileCatalog : IDirectoryProfileCatal
             throw new InvalidDataException("Display names must use supported locales and non-empty values.");
         }
 
+        if (profile.Descriptions is null ||
+            profile.Descriptions.Any(item =>
+                !profile.DisplayNames.ContainsKey(item.Key) ||
+                item.Value is null ||
+                item.Value.Any(character =>
+                    char.IsControl(character) && character is not ('\r' or '\n' or '\t'))))
+        {
+            throw new InvalidDataException(
+                "Descriptions must use profile locales and cannot contain unsupported control characters.");
+        }
+
         ValidateFilter(profile.Filter);
 
         if (profile.Properties.Count == 0)

@@ -47,6 +47,8 @@ builder.Services.AddSingleton<IDirectoryTemplateLoader>(serviceProvider =>
     new FileDirectoryTemplateLoader(
         builder.Environment.ContentRootPath,
         serviceProvider.GetRequiredService<IDirectoryProfileCatalog>()));
+builder.Services.AddSingleton<IDirectoryDocumentRenderer, OpenXmlDirectoryDocumentRenderer>();
+builder.Services.AddSingleton<TimeProvider>(TimeProvider.System);
 builder.Services.AddSwaggerGen(options =>
 {
     var tenantId = builder.Configuration["AzureAd:TenantId"];

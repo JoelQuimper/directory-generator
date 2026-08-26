@@ -76,13 +76,27 @@ try
         "/api/v1/directories/generate",
         new { profileId = "default", locale = "en-CA" },
         cancellationSource.Token);
-    var responseBody = await response.Content.ReadAsStringAsync(cancellationSource.Token);
 
     Console.WriteLine(
         $"POST /api/v1/directories/generate -> {(int)response.StatusCode} {response.ReasonPhrase}");
-    if (!string.IsNullOrWhiteSpace(responseBody))
+    if (response.IsSuccessStatusCode)
     {
-        Console.WriteLine(responseBody);
+        var responseFileName = response.Content.Headers.ContentDisposition?.FileNameStar
+            ?? response.Content.Headers.ContentDisposition?.FileName
+            ?? "directory.docx";
+        var fileName = Path.GetFileName(responseFileName.Trim('"'));
+        var outputPath = Path.GetFullPath(fileName, Environment.CurrentDirectory);
+        await using var output = File.Create(outputPath);
+        await response.Content.CopyToAsync(output, cancellationSource.Token);
+        Console.WriteLine($"Saved generated directory to '{outputPath}'.");
+    }
+    else
+    {
+        var responseBody = await response.Content.ReadAsStringAsync(cancellationSource.Token);
+        if (!string.IsNullOrWhiteSpace(responseBody))
+        {
+            Console.Error.WriteLine(responseBody);
+        }
     }
 
     return response.IsSuccessStatusCode ? 0 : 1;

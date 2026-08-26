@@ -4,6 +4,10 @@
     "en-CA": "Default directory",
     "fr-CA": "Répertoire par défaut"
   },
+  "descriptions": {
+    "en-CA": "Employee phone directory",
+    "fr-CA": "Répertoire téléphonique des employés"
+  },
   "filter": "accountEnabled eq true and userType eq 'Member'",
   "properties": [
     "id",
