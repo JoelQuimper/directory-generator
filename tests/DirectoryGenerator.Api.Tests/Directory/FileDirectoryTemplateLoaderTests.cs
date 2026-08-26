@@ -2,12 +2,36 @@ using DirectoryGenerator.Api.Directory;
 using DirectoryGenerator.Api.Directory.Profiles;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Validation;
 using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace DirectoryGenerator.Api.Tests.Directory;
 
 public sealed class FileDirectoryTemplateLoaderTests
 {
+    [Theory]
+    [InlineData("default.en-CA.docx")]
+    [InlineData("default.fr-CA.docx")]
+    public void DeployedStarterTemplateIsSchemaValid(string fileName)
+    {
+        var path = System.IO.Path.Combine(AppContext.BaseDirectory, "Templates", fileName);
+        using var document = WordprocessingDocument.Open(path, false);
+
+        var errors = new OpenXmlValidator().Validate(document).ToArray();
+
+        Assert.True(
+            errors.Length == 0,
+            string.Join(Environment.NewLine, errors.Select(error =>
+                $"{error.Path?.XPath}: {error.Description}")));
+
+        var body = Assert.IsType<Body>(document.MainDocumentPart!.Document.Body);
+        Assert.IsType<Paragraph>(body.Elements().ElementAt(body.Elements().Count() - 2));
+
+        var outerTable = body.Descendants<Table>().First();
+        var leftCell = outerTable.Elements<TableRow>().Single().Elements<TableCell>().First();
+        Assert.IsType<Paragraph>(leftCell.LastChild);
+    }
+
     [Fact]
     public void OpensIndependentStreamsForValidTemplate()
     {
