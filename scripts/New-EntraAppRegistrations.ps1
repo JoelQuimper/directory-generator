@@ -321,5 +321,5 @@ $consoleAppSettings = [pscustomobject]@{
 Write-Output "src/DirectoryGenerator.Api/appsettings.Development.json"
 $apiAppSettings | ConvertTo-Json -Depth 3
 
-Write-Output "tools/DirectoryGenerator.Console/appsettings.Development.json"
+Write-Output "src/DirectoryGenerator.Console/appsettings.Development.json"
 $consoleAppSettings | ConvertTo-Json -Depth 3

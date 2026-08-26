@@ -1,11 +1,9 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/DirectoryGenerator.Api/DirectoryGenerator.Api.csproj" />
+    <Project Path="src/DirectoryGenerator.Console/DirectoryGenerator.Console.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/DirectoryGenerator.Api.Tests/DirectoryGenerator.Api.Tests.csproj" />
-  </Folder>
-  <Folder Name="/tools/">
-    <Project Path="tools/DirectoryGenerator.Console/DirectoryGenerator.Console.csproj" />
   </Folder>
 </Solution>

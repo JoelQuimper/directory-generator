@@ -20,7 +20,7 @@ The script is not idempotent. Running it again creates another set of registrati
 To provision a replacement set, first delete the three existing app registrations and remove their enterprise applications if they remain. Run the script again, then replace the values in these ignored local configuration files with the newly generated output:
 
 - `src/DirectoryGenerator.Api/appsettings.Development.json`
-- `tools/DirectoryGenerator.Console/appsettings.Development.json`
+- `src/DirectoryGenerator.Console/appsettings.Development.json`
 
 ## Test directory users
 
