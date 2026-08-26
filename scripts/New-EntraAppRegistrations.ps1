@@ -314,6 +314,7 @@ $consoleAppSettings = [pscustomobject]@{
         TenantId = $tenantId
         ApiClientId = $apiApplication.appId
         ConsoleClientId = $consoleApplication.appId
+        OutputDirectory = "."
     }
 }
 

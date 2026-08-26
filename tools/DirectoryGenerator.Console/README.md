@@ -14,6 +14,6 @@ This development tool verifies application access to the Directory Generator API
 dotnet run --project tools/DirectoryGenerator.Console
 ```
 
-The tool uses `AzureCliCredential` to authenticate to Microsoft Graph, creates a uniquely named one-hour credential for the Console registration, requests `api://{ApiClientId}/.default`, and calls `POST /api/v1/directories/generate` with the default profile. A successful response is saved to the current directory using the server-provided `.docx` filename. The tool deletes the exact temporary credential through Microsoft Graph in a `finally` block and never prints the credential or access token.
+The tool uses `AzureCliCredential` to authenticate to Microsoft Graph, creates a uniquely named one-hour credential for the Console registration, requests `api://{ApiClientId}/.default`, and calls `POST /api/v1/directories/generate` with the default profile. A successful response is saved under the configured `DirectoryGenerator:OutputDirectory` using the server-provided `.docx` filename. Absolute output paths are used directly; relative paths are resolved from the current working directory. The output directory is created when it does not exist. The tool deletes the exact temporary credential through Microsoft Graph in a `finally` block and never prints the credential or access token.
 
 The one-hour expiry limits exposure if the process is forcibly terminated before cleanup can run.

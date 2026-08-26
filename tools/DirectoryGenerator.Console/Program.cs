@@ -22,6 +22,9 @@ var apiBaseUrl = GetRequiredUri(configuration, $"{configurationSection}:ApiBaseU
 var tenantId = GetRequiredGuid(configuration, $"{configurationSection}:TenantId");
 var apiClientId = GetRequiredGuid(configuration, $"{configurationSection}:ApiClientId");
 var consoleClientId = GetRequiredGuid(configuration, $"{configurationSection}:ConsoleClientId");
+var outputDirectory = GetRequiredDirectoryPath(
+    configuration,
+    $"{configurationSection}:OutputDirectory");
 var credentialName = $"{credentialPrefix} {Guid.NewGuid():N}";
 var azureCliCredential = new AzureCliCredential(new AzureCliCredentialOptions
 {
@@ -85,7 +88,8 @@ try
             ?? response.Content.Headers.ContentDisposition?.FileName
             ?? "directory.docx";
         var fileName = Path.GetFileName(responseFileName.Trim('"'));
-        var outputPath = Path.GetFullPath(fileName, Environment.CurrentDirectory);
+        Directory.CreateDirectory(outputDirectory);
+        var outputPath = Path.Combine(outputDirectory, fileName);
         await using var output = File.Create(outputPath);
         await response.Content.CopyToAsync(output, cancellationSource.Token);
         Console.WriteLine($"Saved generated directory to '{outputPath}'.");
@@ -233,4 +237,15 @@ static Guid GetRequiredGuid(IConfiguration configuration, string key)
     }
 
     return result;
+}
+
+static string GetRequiredDirectoryPath(IConfiguration configuration, string key)
+{
+    var value = configuration[key];
+    if (string.IsNullOrWhiteSpace(value))
+    {
+        throw new InvalidOperationException($"Configuration '{key}' must be a directory path.");
+    }
+
+    return Path.GetFullPath(value, Environment.CurrentDirectory);
 }
