@@ -22,6 +22,20 @@ To provision a replacement set, first delete the three existing app registration
 - `src/DirectoryGenerator.Api/appsettings.Development.json`
 - `tools/DirectoryGenerator.Console/appsettings.Development.json`
 
+## Test directory users
+
+The `scripts/New-EntraTestUsers.ps1` script creates 60 synthetic, enabled Microsoft Entra users distributed evenly across 10 departments. The department set includes `Core` and `Test`. Each user has a given name, surname, display name, department, job title, and business phone extension.
+
+The script uses the current Azure CLI user and requires Microsoft Graph `User.ReadWrite.All` or `Directory.ReadWrite.All` plus an appropriate Microsoft Entra role. Pass a verified domain from the target tenant. Deterministic `dg-test-001` through `dg-test-060` user principal names make reruns safe: existing users are skipped, and generated passwords are never printed or persisted.
+
+Preview locally without contacting Azure:
+
+```powershell
+.\scripts\New-EntraTestUsers.ps1 -TenantDomain "example.onmicrosoft.com" -WhatIf
+```
+
+After reviewing the preview, run the same command without `-WhatIf` yourself to create the users.
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
