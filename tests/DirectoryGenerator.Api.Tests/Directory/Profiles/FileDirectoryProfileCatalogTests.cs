@@ -47,6 +47,40 @@ public sealed class FileDirectoryProfileCatalogTests
         Assert.Contains("ID 'default' is duplicated", exception.Message);
     }
 
+      [Fact]
+      public void RejectsMissingTemplateLocale()
+      {
+        using var directory = new TemporaryProfileDirectory();
+        directory.Write(
+          "missing-template.json",
+          ValidProfileJson.Replace(
+            "\"en-CA\": \"Templates/default.en-CA.docx\",\r\n    \"fr-CA\": \"Templates/default.fr-CA.docx\"",
+            "\"en-CA\": \"Templates/default.en-CA.docx\"",
+            StringComparison.Ordinal));
+
+        var exception = Assert.Throws<InvalidDataException>(
+          () => new FileDirectoryProfileCatalog(directory.Path));
+
+        Assert.Contains("required for every profile locale", exception.Message);
+      }
+
+      [Fact]
+      public void RejectsTemplatePathTraversal()
+      {
+        using var directory = new TemporaryProfileDirectory();
+        directory.Write(
+          "unsafe-template.json",
+          ValidProfileJson.Replace(
+            "Templates/default.en-CA.docx",
+            "../outside.docx",
+            StringComparison.Ordinal));
+
+        var exception = Assert.Throws<InvalidDataException>(
+          () => new FileDirectoryProfileCatalog(directory.Path));
+
+        Assert.Contains("safe relative path", exception.Message);
+      }
+
     private const string ValidProfileJson = """
         {
           "id": "default",
@@ -71,6 +105,10 @@ public sealed class FileDirectoryProfileCatalogTests
                 "direction": "ascending"
               }
             ]
+          },
+          "templates": {
+            "en-CA": "Templates/default.en-CA.docx",
+            "fr-CA": "Templates/default.fr-CA.docx"
           }
         }
         """;

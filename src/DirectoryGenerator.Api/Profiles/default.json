@@ -38,5 +38,9 @@
         "direction": "ascending"
       }
     ]
+  },
+  "templates": {
+    "en-CA": "Templates/default.en-CA.docx",
+    "fr-CA": "Templates/default.fr-CA.docx"
   }
 }

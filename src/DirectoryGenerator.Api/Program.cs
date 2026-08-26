@@ -43,6 +43,10 @@ builder.Services.AddSingleton(serviceProvider => new GraphServiceClient(
     ["https://graph.microsoft.com/.default"]));
 builder.Services.AddSingleton<IDirectoryReader, GraphDirectoryReader>();
 builder.Services.AddSingleton<IDirectoryEntryOrganizer, DirectoryEntryOrganizer>();
+builder.Services.AddSingleton<IDirectoryTemplateLoader>(serviceProvider =>
+    new FileDirectoryTemplateLoader(
+        builder.Environment.ContentRootPath,
+        serviceProvider.GetRequiredService<IDirectoryProfileCatalog>()));
 builder.Services.AddSwaggerGen(options =>
 {
     var tenantId = builder.Configuration["AzureAd:TenantId"];
@@ -74,6 +78,7 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 _ = app.Services.GetRequiredService<IDirectoryProfileCatalog>();
+_ = app.Services.GetRequiredService<IDirectoryTemplateLoader>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

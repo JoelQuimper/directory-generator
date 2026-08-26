@@ -19,7 +19,12 @@ public sealed class ProfilesControllerTests
                 ["fr-CA"] = "Repertoire par defaut"
             },
             Filter = "accountEnabled eq true",
-            Properties = ["displayName"]
+            Properties = ["displayName"],
+            Templates = new Dictionary<string, string>
+            {
+                ["en-CA"] = "Templates/default.en-CA.docx",
+                ["fr-CA"] = "Templates/default.fr-CA.docx"
+            }
         };
         var controller = new ProfilesController(new StubProfileCatalog(profile));
 

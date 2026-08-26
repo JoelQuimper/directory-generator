@@ -10,5 +10,6 @@ The current fields are:
 - `properties`: Microsoft Graph user properties to retrieve.
 - `sort.groupBy`: optional grouping property and direction.
 - `sort.entries`: ordered entry sorting rules.
+- `templates`: localized paths to deployed macro-free `.docx` templates.
 
-API callers select a profile by `id`; they cannot supply or override its filter or properties.
+Every locale in `displayNames` must have a corresponding template. Template paths are relative to the API content root and must remain beneath it. API callers select a profile by `id`; they cannot supply or override its filter, properties, or templates.

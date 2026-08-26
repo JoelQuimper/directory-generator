@@ -125,6 +125,8 @@ public sealed partial class FileDirectoryProfileCatalog : IDirectoryProfileCatal
         {
             ValidateSortRule(rule);
         }
+
+        ValidateTemplates(profile);
     }
 
     private static void ValidateFilter(string filter)
@@ -163,6 +165,30 @@ public sealed partial class FileDirectoryProfileCatalog : IDirectoryProfileCatal
         if (rule.Direction is not ("ascending" or "descending"))
         {
             throw new InvalidDataException("Sort direction must be 'ascending' or 'descending'.");
+        }
+    }
+
+    private static void ValidateTemplates(DirectoryProfile profile)
+    {
+        if (profile.Templates.Count != profile.DisplayNames.Count ||
+            profile.DisplayNames.Keys.Any(locale => !profile.Templates.ContainsKey(locale)))
+        {
+            throw new InvalidDataException("A Word template is required for every profile locale.");
+        }
+
+        foreach (var (locale, path) in profile.Templates)
+        {
+            if (!SupportedLocales.Contains(locale) ||
+                string.IsNullOrWhiteSpace(path) ||
+                Path.IsPathRooted(path) ||
+                path.Any(char.IsControl) ||
+                path.Contains('?', StringComparison.Ordinal) ||
+                path.Split(['/', '\\']).Contains("..", StringComparer.Ordinal) ||
+                !string.Equals(Path.GetExtension(path), ".docx", StringComparison.OrdinalIgnoreCase))
+            {
+                throw new InvalidDataException(
+                    $"Template '{locale}' must be a safe relative path to a .docx file.");
+            }
         }
     }
 

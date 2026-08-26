@@ -11,6 +11,8 @@ public sealed record DirectoryProfile
     public required IReadOnlyList<string> Properties { get; init; }
 
     public DirectorySort? Sort { get; init; }
+
+    public required IReadOnlyDictionary<string, string> Templates { get; init; }
 }
 
 public sealed record DirectorySort
