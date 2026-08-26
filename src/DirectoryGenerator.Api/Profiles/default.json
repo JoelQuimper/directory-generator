@@ -1,0 +1,42 @@
+{
+  "id": "default",
+  "displayNames": {
+    "en-CA": "Default directory",
+    "fr-CA": "Répertoire par défaut"
+  },
+  "filter": "accountEnabled eq true and userType eq 'Member'",
+  "properties": [
+    "id",
+    "displayName",
+    "givenName",
+    "surname",
+    "jobTitle",
+    "department",
+    "companyName",
+    "officeLocation",
+    "businessPhones",
+    "mobilePhone",
+    "mail",
+    "userPrincipalName"
+  ],
+  "sort": {
+    "groupBy": {
+      "property": "department",
+      "direction": "ascending"
+    },
+    "entries": [
+      {
+        "property": "surname",
+        "direction": "ascending"
+      },
+      {
+        "property": "givenName",
+        "direction": "ascending"
+      },
+      {
+        "property": "displayName",
+        "direction": "ascending"
+      }
+    ]
+  }
+}
