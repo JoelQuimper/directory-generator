@@ -36,6 +36,16 @@ Preview locally without contacting Azure:
 
 After reviewing the preview, run the same command without `-WhatIf` yourself to create the users.
 
+## Infrastructure deployment
+
+Replace the Microsoft Entra application ID placeholders in `infra/main.bicepparam`, then run:
+
+```powershell
+.\scripts\Deploy-Infrastructure.ps1
+```
+
+The script requests confirmation before deploying and uses the active Azure CLI subscription by default. Pass `-SubscriptionId <subscription-id>` to target a subscription without changing the active Azure CLI context. After deployment, it idempotently grants the App Service managed identity the Microsoft Graph application permission `User.Read.All`. The signed-in Azure CLI user must have permission to create Microsoft Graph app-role assignments.
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).

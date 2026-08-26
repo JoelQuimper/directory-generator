@@ -429,3 +429,5 @@ FodyWeavers.xsd
 *.msm
 *.msp
 .vscode/settings.json
+infra/main.*.bicepparam
+scripts/scrapbook.ps1
