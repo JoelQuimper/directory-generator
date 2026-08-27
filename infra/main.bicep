@@ -97,3 +97,4 @@ output appServicePlanName string = appServicePlan.outputs.name
 output appServiceUrl string = 'https://${webApp.outputs.defaultHostname}'
 output managedIdentityPrincipalId string? = webApp.outputs.?systemAssignedMIPrincipalId
 output resourceGroupName string = resourceGroupDeployment.outputs.name
+output swaggerClientId string = appService.environment.swaggerClientId

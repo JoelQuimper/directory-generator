@@ -60,13 +60,61 @@ if ($LASTEXITCODE -ne 0) {
 
 $deployment = $deploymentJson | ConvertFrom-Json
 $outputs = $deployment.properties.outputs
+$appServiceUrl = $outputs.appServiceUrl.value
 $managedIdentityPrincipalId = $outputs.managedIdentityPrincipalId.value
+$swaggerClientId = $outputs.swaggerClientId.value
 
 Write-Host "Azure infrastructure deployment completed."
 Write-Host "Resource group: $($outputs.resourceGroupName.value)"
 Write-Host "App Service plan: $($outputs.appServicePlanName.value)"
 Write-Host "App Service: $($outputs.appServiceName.value)"
-Write-Host "Application URL: $($outputs.appServiceUrl.value)"
+Write-Host "Application URL: $appServiceUrl"
+
+$swaggerRedirectUri = "$appServiceUrl/swagger/oauth2-redirect.html"
+Write-Host "Checking Swagger redirect URI '$swaggerRedirectUri'."
+$swaggerApplication = & az ad app show --id $swaggerClientId --output json | ConvertFrom-Json
+if ($LASTEXITCODE -ne 0) {
+    throw "Failed to find Swagger application '$swaggerClientId'."
+}
+
+$swaggerRedirectUris = @($swaggerApplication.spa.redirectUris | Where-Object {
+    -not [string]::IsNullOrWhiteSpace($_)
+})
+
+if ($swaggerRedirectUri -notin $swaggerRedirectUris) {
+    $swaggerRedirectBody = @{
+        spa = @{
+            redirectUris = @($swaggerRedirectUris) + $swaggerRedirectUri
+        }
+    } | ConvertTo-Json -Depth 3
+
+    $swaggerRedirectBodyPath = Join-Path `
+        $repositoryRoot `
+        ".swagger-redirect-$deploymentName.json"
+    $swaggerRedirectBody | Set-Content `
+        -LiteralPath $swaggerRedirectBodyPath `
+        -Encoding utf8NoBOM
+
+    try {
+        & az rest `
+            --method PATCH `
+            --uri "https://graph.microsoft.com/v1.0/applications/$($swaggerApplication.id)" `
+            --headers "Content-Type=application/json" `
+            --body "@$swaggerRedirectBodyPath" `
+            --output none
+        if ($LASTEXITCODE -ne 0) {
+            throw "Failed to add Swagger redirect URI '$swaggerRedirectUri'."
+        }
+    }
+    finally {
+        Remove-Item -LiteralPath $swaggerRedirectBodyPath -Force
+    }
+
+    Write-Host "Added Swagger redirect URI '$swaggerRedirectUri'."
+}
+else {
+    Write-Host "Swagger redirect URI is already configured."
+}
 
 Write-Host "Checking Microsoft Graph User.Read.All application permission to the App Service managed identity."
 $graphApplicationId = "00000003-0000-0000-c000-000000000000"

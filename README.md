@@ -44,7 +44,17 @@ Replace the Microsoft Entra application ID placeholders in `infra/main.biceppara
 .\scripts\Deploy-Infrastructure.ps1
 ```
 
-The script requests confirmation before deploying and uses the active Azure CLI subscription by default. Pass `-SubscriptionId <subscription-id>` to target a subscription without changing the active Azure CLI context. After deployment, it idempotently grants the App Service managed identity the Microsoft Graph application permission `User.Read.All`. The signed-in Azure CLI user must have permission to create Microsoft Graph app-role assignments.
+The script requests confirmation before deploying and uses the active Azure CLI subscription by default. Pass `-SubscriptionId <subscription-id>` to target a subscription without changing the active Azure CLI context. After deployment, it idempotently adds the App Service Swagger redirect URI to the existing Swagger app registration and grants the App Service managed identity the Microsoft Graph application permission `User.Read.All`. The signed-in Azure CLI user must have permission to update applications and create Microsoft Graph app-role assignments.
+
+## Application deployment
+
+Publish and deploy the API to the App Service created for an environment:
+
+```powershell
+.\scripts\Deploy-Application.ps1 -EnvironmentName jqdev
+```
+
+The script deploys to `rg-directory-generator-<environment>` and `app-directory-generator-<environment>`. It creates its publish output and deployment ZIP under the repository-local `.artifacts` directory and removes them after deployment. Pass `-SubscriptionId <subscription-id>` to target a subscription without changing the active Azure CLI context.
 
 ## License
 
