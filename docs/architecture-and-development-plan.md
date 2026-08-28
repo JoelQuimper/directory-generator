@@ -236,8 +236,8 @@ Example:
     ]
   },
   "templates": {
-    "en-CA": "Templates/hq-by-department.en-CA.docx",
-    "fr-CA": "Templates/hq-by-department.fr-CA.docx"
+    "en-CA": "Resources/Templates/hq-by-department.en-CA.docx",
+    "fr-CA": "Resources/Templates/hq-by-department.fr-CA.docx"
   }
 }
 ```
@@ -485,14 +485,15 @@ src/
       Sorting/
     Graph/
     Documents/
-    Profiles/
-      hq-alphabetical.json
-      hq-by-department.json
-    Templates/
-      hq-alphabetical.en-CA.docx
-      hq-alphabetical.fr-CA.docx
-      hq-by-department.en-CA.docx
-      hq-by-department.fr-CA.docx
+    Resources/
+      Profiles/
+        hq-alphabetical.json
+        hq-by-department.json
+      Templates/
+        hq-alphabetical.en-CA.docx
+        hq-alphabetical.fr-CA.docx
+        hq-by-department.en-CA.docx
+        hq-by-department.fr-CA.docx
     Program.cs
     appsettings.json
     appsettings.Development.json

@@ -1,7 +1,9 @@
 using DirectoryGenerator.Api.Auth;
 using DirectoryGenerator.Api.Contracts;
-using DirectoryGenerator.Api.Directory;
+using DirectoryGenerator.Api.Directory.Organizing;
 using DirectoryGenerator.Api.Directory.Profiles;
+using DirectoryGenerator.Api.Directory.Reading;
+using DirectoryGenerator.Api.Directory.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

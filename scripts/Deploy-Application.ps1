@@ -4,7 +4,10 @@ param(
     [ValidatePattern("^[a-z0-9-]+$")]
     [string] $EnvironmentName,
 
-    [string] $SubscriptionId
+    [string] $SubscriptionId,
+
+    [ValidateRange(60000, 3600000)]
+    [int] $DeploymentTimeoutMilliseconds = 1200000
 )
 
 $ErrorActionPreference = "Stop"
@@ -70,6 +73,7 @@ try {
         --type zip `
         --clean true `
         --restart true `
+        --timeout $DeploymentTimeoutMilliseconds `
         @subscriptionArguments
     if ($LASTEXITCODE -ne 0) {
         throw "Application deployment failed with exit code $LASTEXITCODE."

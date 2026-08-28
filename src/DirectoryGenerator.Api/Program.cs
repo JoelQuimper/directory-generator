@@ -1,8 +1,11 @@
 using Azure.Core;
 using Azure.Identity;
 using DirectoryGenerator.Api.Auth;
-using DirectoryGenerator.Api.Directory;
+using DirectoryGenerator.Api.Directory.Organizing;
 using DirectoryGenerator.Api.Directory.Profiles;
+using DirectoryGenerator.Api.Directory.Reading;
+using DirectoryGenerator.Api.Directory.Rendering;
+using DirectoryGenerator.Api.Directory.Templates;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Graph;
 using Microsoft.Identity.Web;

@@ -1,11 +1,12 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 using DirectoryGenerator.Api.Contracts;
+using DirectoryGenerator.Api.Directory.Templates;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 
-namespace DirectoryGenerator.Api.Directory;
+namespace DirectoryGenerator.Api.Directory.Rendering;
 
 public sealed partial class OpenXmlDirectoryDocumentRenderer(
     IDirectoryTemplateLoader templateLoader) : IDirectoryDocumentRenderer

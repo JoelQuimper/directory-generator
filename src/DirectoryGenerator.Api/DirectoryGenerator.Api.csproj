@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Profiles\**\*.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="Templates\**\*.docx" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Resources\Profiles\**\*.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Resources\Templates\**\*.docx" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

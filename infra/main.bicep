@@ -73,7 +73,7 @@ module webApp 'br/public:avm/res/web/site:0.24.0' = {
           AzureAd__ClientId: appService.environment.apiClientId
           AzureAd__Instance: environment().authentication.loginEndpoint
           AzureAd__TenantId: deployer().tenantId
-          DirectoryProfiles__Path: 'Profiles'
+          DirectoryProfiles__Path: 'Resources/Profiles'
           Swagger__ClientId: appService.environment.swaggerClientId
         }
       }

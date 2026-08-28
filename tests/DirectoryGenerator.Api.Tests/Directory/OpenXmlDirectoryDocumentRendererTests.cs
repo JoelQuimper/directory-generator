@@ -1,5 +1,6 @@
 using DirectoryGenerator.Api.Contracts;
-using DirectoryGenerator.Api.Directory;
+using DirectoryGenerator.Api.Directory.Rendering;
+using DirectoryGenerator.Api.Directory.Templates;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Validation;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -152,6 +153,7 @@ public sealed class OpenXmlDirectoryDocumentRendererTests
     private static byte[] ReadTemplate() =>
         File.ReadAllBytes(Path.Combine(
             AppContext.BaseDirectory,
+            "Resources",
             "Templates",
             "default.en-CA.docx"));
 

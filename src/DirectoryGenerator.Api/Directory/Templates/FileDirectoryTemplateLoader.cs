@@ -2,7 +2,7 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DirectoryGenerator.Api.Directory.Profiles;
 
-namespace DirectoryGenerator.Api.Directory;
+namespace DirectoryGenerator.Api.Directory.Templates;
 
 public sealed class FileDirectoryTemplateLoader : IDirectoryTemplateLoader
 {

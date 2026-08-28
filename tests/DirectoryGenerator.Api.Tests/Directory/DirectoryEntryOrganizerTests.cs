@@ -1,5 +1,5 @@
 using DirectoryGenerator.Api.Contracts;
-using DirectoryGenerator.Api.Directory;
+using DirectoryGenerator.Api.Directory.Organizing;
 using DirectoryGenerator.Api.Directory.Profiles;
 
 namespace DirectoryGenerator.Api.Tests.Directory;

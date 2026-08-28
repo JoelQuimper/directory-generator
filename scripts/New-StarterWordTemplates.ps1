@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string] $OutputDirectory = (Join-Path $PSScriptRoot "..\src\DirectoryGenerator.Api\Templates")
+  [string] $OutputDirectory = (Join-Path $PSScriptRoot "..\src\DirectoryGenerator.Api\Resources\Templates")
 )
 
 $ErrorActionPreference = "Stop"

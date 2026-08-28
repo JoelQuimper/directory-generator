@@ -1,5 +1,5 @@
-using DirectoryGenerator.Api.Directory;
 using DirectoryGenerator.Api.Directory.Profiles;
+using DirectoryGenerator.Api.Directory.Templates;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Validation;
@@ -14,7 +14,11 @@ public sealed class FileDirectoryTemplateLoaderTests
     [InlineData("default.fr-CA.docx")]
     public void DeployedStarterTemplateIsSchemaValid(string fileName)
     {
-        var path = System.IO.Path.Combine(AppContext.BaseDirectory, "Templates", fileName);
+        var path = System.IO.Path.Combine(
+            AppContext.BaseDirectory,
+            "Resources",
+            "Templates",
+            fileName);
         using var document = WordprocessingDocument.Open(path, false);
 
         var errors = new OpenXmlValidator().Validate(document).ToArray();

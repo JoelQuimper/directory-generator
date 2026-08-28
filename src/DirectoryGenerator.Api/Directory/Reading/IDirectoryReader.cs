@@ -1,7 +1,7 @@
 using DirectoryGenerator.Api.Contracts;
 using DirectoryGenerator.Api.Directory.Profiles;
 
-namespace DirectoryGenerator.Api.Directory;
+namespace DirectoryGenerator.Api.Directory.Reading;
 
 public interface IDirectoryReader
 {

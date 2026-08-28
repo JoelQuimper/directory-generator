@@ -1,6 +1,6 @@
 using DirectoryGenerator.Api.Contracts;
 
-namespace DirectoryGenerator.Api.Directory;
+namespace DirectoryGenerator.Api.Directory.Rendering;
 
 public sealed record DirectoryDocumentContent(
     string ProfileId,

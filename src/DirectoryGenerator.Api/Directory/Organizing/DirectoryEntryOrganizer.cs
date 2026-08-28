@@ -2,7 +2,7 @@ using System.Globalization;
 using DirectoryGenerator.Api.Contracts;
 using DirectoryGenerator.Api.Directory.Profiles;
 
-namespace DirectoryGenerator.Api.Directory;
+namespace DirectoryGenerator.Api.Directory.Organizing;
 
 public sealed class DirectoryEntryOrganizer : IDirectoryEntryOrganizer
 {

@@ -1,4 +1,4 @@
-namespace DirectoryGenerator.Api.Directory;
+namespace DirectoryGenerator.Api.Directory.Templates;
 
 public interface IDirectoryTemplateLoader
 {

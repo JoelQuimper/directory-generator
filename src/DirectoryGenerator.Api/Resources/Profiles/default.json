@@ -44,7 +44,7 @@
     ]
   },
   "templates": {
-    "en-CA": "Templates/default.en-CA.docx",
-    "fr-CA": "Templates/default.fr-CA.docx"
+    "en-CA": "Resources/Templates/default.en-CA.docx",
+    "fr-CA": "Resources/Templates/default.fr-CA.docx"
   }
 }

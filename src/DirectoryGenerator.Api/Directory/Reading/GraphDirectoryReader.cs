@@ -3,7 +3,7 @@ using DirectoryGenerator.Api.Directory.Profiles;
 using Microsoft.Graph;
 using Microsoft.Graph.Models;
 
-namespace DirectoryGenerator.Api.Directory;
+namespace DirectoryGenerator.Api.Directory.Reading;
 
 public sealed class GraphDirectoryReader(GraphServiceClient graphClient) : IDirectoryReader
 {
